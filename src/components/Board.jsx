@@ -52,8 +52,8 @@ class Board extends React.Component {
     for (let row = 0; row < b.length; row++) {
       for (let col = 0; col < b[0].length; col++) {
         const boardVal = b[row][col];
-        if (boardVal == 1 || boardVal == 3) {
-          const king = boardVal == 3;
+        if (boardVal === 1 || boardVal === 3) {
+          const king = boardVal === 3;
           const moves = this.getMoves(color, row, col, king);
           moves.push(...this.getJumps(color, row, col, king));
           // eslint-disable-next-line no-loop-func
@@ -86,7 +86,7 @@ class Board extends React.Component {
   };
 
   switchTurns = () => {
-    if (this.state.currMove == "black") {
+    if (this.state.currMove === "black") {
       this.setState({
         currMove: "red"
       });
@@ -102,9 +102,9 @@ class Board extends React.Component {
     row = parseInt(row);
     col = parseInt(col);
     val = parseInt(val);
-    if (row == 0 && val == 2) {
+    if (row === 0 && val === 2) {
       val = 4;
-    } else if (row == 7 && val == 1) {
+    } else if (row === 7 && val === 1) {
       val = 3;
     }
     var newArray = [];
@@ -170,7 +170,7 @@ class Board extends React.Component {
   };
 
   showSquares = ({ color, col, row, king }) => {
-    if (this.state.currMove != color) {
+    if (this.state.currMove !== color) {
       return;
     }
     this.setLocation({ color, row, col, king });
@@ -178,7 +178,7 @@ class Board extends React.Component {
     for (var i = 0; i < this.state.highlighted.length; i++)
       newArray[i] = this.state.highlighted[i].slice();
     var moves = this.getJumps(color, row, col, king);
-    if (moves.length == 0) {
+    if (moves.length === 0) {
       moves = this.getMoves(color, row, col, king);
     }
     moves.forEach(move => {
@@ -194,7 +194,7 @@ class Board extends React.Component {
     col = parseInt(col);
     row = parseInt(row);
     var moves = [];
-    var rows = color == "black" ? [-1] : [1];
+    var rows = color === "black" ? [-1] : [1];
     if (king) {
       rows = [1, -1];
     }
@@ -202,7 +202,7 @@ class Board extends React.Component {
     cols.forEach(c => {
       rows.forEach(r => {
         if (this.isInBounds(row + r, col + c)) {
-          if (this.state.board[row + r][col + c] == 0) {
+          if (this.state.board[row + r][col + c] === 0) {
             moves.push([row + r, col + c]);
           }
         }
@@ -214,11 +214,11 @@ class Board extends React.Component {
   getJumps = (color, row, col, king) => {
     col = parseInt(col);
     row = parseInt(row);
-    var rows = color == "black" ? [-1] : [1];
+    var rows = color === "black" ? [-1] : [1];
     if (king) {
       rows = [1, -1];
     }
-    const oponnents = color == "black" ? [1, 3] : [2, 4];
+    const oponnents = color === "black" ? [1, 3] : [2, 4];
     const moves = [];
     const seen = new Set();
     const dfsUtil = (row, col, rows) => {
@@ -239,7 +239,7 @@ class Board extends React.Component {
           if (
             !seen.has(lRow * 8 + lCol) &&
             this.isInBounds(lRow, lCol) &&
-            this.state.board[lRow][lCol] == 0
+            this.state.board[lRow][lCol] === 0
           ) {
             moves.push([lRow, lCol]);
             dfsUtil(lRow, lCol, rows);
@@ -252,11 +252,11 @@ class Board extends React.Component {
   };
 
   getCaptured = ({ startRow, startCol, endRow, endCol, color, king }) => {
-    var rows = color == "black" ? [-1] : [1];
+    var rows = color === "black" ? [-1] : [1];
     if (king) {
       rows = [1, -1];
     }
-    const oponnents = color == "black" ? [1, 3] : [2, 4];
+    const oponnents = color === "black" ? [1, 3] : [2, 4];
     var ans = [];
     var found = false;
     const seen = new Set();
@@ -278,19 +278,19 @@ class Board extends React.Component {
           if (
             !seen.has(lRow * 8 + lCol) &&
             this.isInBounds(lRow, lCol) &&
-            this.state.board[lRow][lCol] == 0
+            this.state.board[lRow][lCol] === 0
           ) {
-            if (found == true) {
+            if (found === true) {
               return;
             }
             captured.push([jRow, jCol]);
-            if (lRow == endRow && lCol == endCol) {
+            if (lRow === endRow && lCol === endCol) {
               ans = captured.slice();
               found = true;
               return;
             }
             dfsUtil(lRow, lCol, rows, captured.slice());
-            if (found == true) {
+            if (found === true) {
               return;
             }
             captured.pop();
@@ -317,7 +317,7 @@ class Board extends React.Component {
             break;
           default:
             const checkerColor =
-              squareState == 1 || squareState == 3 ? "red" : "black";
+              squareState === 1 || squareState === 3 ? "red" : "black";
             const king = squareState > 2;
             retVal.push(
               <PlayableSquare
@@ -336,7 +336,7 @@ class Board extends React.Component {
                     color={checkerColor}
                     king={king}
                     counter={
-                      checkerColor == "red" ? redCounter++ : blackCounter++
+                      checkerColor === "red" ? redCounter++ : blackCounter++
                     }
                     style={checkerStyle}
                     row={row}

@@ -14,7 +14,7 @@ const PlayableSquare = ({
 }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "checker",
-    canDrop: () => highlighted == 1,
+    canDrop: () => highlighted === 1,
     drop: (item, monitor) => {
       moveCurr({ row, col })
       resetSquare({ row, col })
